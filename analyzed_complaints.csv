@@ -1,0 +1,11 @@
+Complaint,Category,Sentiment,Severity
+Internet speed is very slow,Network,Negative,Medium
+Recharge failed but money deducted,Billing,Negative,High
+Network issues in my area,Network,Neutral,Medium
+Customer support was helpful,Customer Service,Neutral,Low
+5G connection keeps disconnecting,Network,Neutral,High
+Billing issue not resolved,Billing,Neutral,High
+App crashes frequently,Technical,Positive,Medium
+Service was excellent,Customer Service,Positive,Low
+Call drops happening daily,Technical,Neutral,High
+Unable to activate plan,Other,Negative,Low

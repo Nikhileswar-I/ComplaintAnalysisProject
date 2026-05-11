@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from textblob import TextBlob
@@ -5,7 +6,7 @@ from textblob import TextBlob
 # Load dataset
 df = pd.read_csv("complaints.csv")
 
-# Categorize complaints
+# Categorization
 def categorize_complaint(text):
     text = text.lower()
 
@@ -24,7 +25,6 @@ def categorize_complaint(text):
     else:
         return "Other"
 
-# Apply categories
 df["Category"] = df["Complaint"].apply(categorize_complaint)
 
 # Sentiment analysis
@@ -59,54 +59,48 @@ def get_severity(text):
 
 df["Severity"] = df["Complaint"].apply(get_severity)
 
-# Export analyzed data
-df.to_csv("analyzed_complaints.csv", index=False)
+# Streamlit UI
+st.title("AI-Based Complaint Analysis Dashboard")
 
-print("\nAnalyzed complaints exported successfully!")
+st.subheader("Complaint Dataset")
+st.dataframe(df)
 
-# Display dataset
-print(df)
+# Analytics Summary
+st.subheader("Analytics Summary")
 
-# Category counts
 category_counts = df["Category"].value_counts()
-
-# Analytics summary
-print("\n--- ANALYTICS SUMMARY ---")
 
 most_common = category_counts.idxmax()
 
-print(f"Most common complaint category: {most_common}")
-print(f"Total complaints analyzed: {len(df)}")
+st.write(f"Most common complaint category: {most_common}")
+st.write(f"Total complaints analyzed: {len(df)}")
 
-# Bar chart visualization
+# Bar Chart
+st.subheader("Complaint Categories")
+
+fig, ax = plt.subplots()
+
 category_counts.plot(
     kind="bar",
-    color=["skyblue", "orange", "green", "red", "purple"]
+    color=["skyblue", "orange", "green", "red", "purple"],
+    ax=ax
 )
 
 plt.xticks(rotation=0)
-plt.tight_layout()
 
-plt.title("Complaint Categories")
-plt.xlabel("Category")
-plt.ylabel("Count")
+st.pyplot(fig)
 
-# Save chart
-plt.savefig("complaint_chart.png")
+# Pie Chart
+st.subheader("Complaint Distribution")
 
-# Show bar chart
-plt.show()
-
-# Pie chart visualization
-plt.figure(figsize=(6, 6))
+fig2, ax2 = plt.subplots()
 
 category_counts.plot(
     kind="pie",
-    autopct="%1.1f%%"
+    autopct="%1.1f%%",
+    ax=ax2
 )
 
-plt.title("Complaint Distribution")
 plt.ylabel("")
 
-# Show pie chart
-plt.show()
+st.pyplot(fig2)
